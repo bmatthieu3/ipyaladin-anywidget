@@ -1,23 +1,20 @@
-import A from "./node_modules/aladin-lite";
+import A from "https://esm.sh/aladin-lite@3.2.0";
 
-await A.init;
 
-let idxView = 0;
 export function render({model, el}) {
-    // 
-    if (this.div) {
-        this.el.remove(this.div);
-    }
 
-    const height =() => model.get("height");
+    A.init.then(() => {
 
-    this.div = document.createElement('div');
-    this.div.id = `aladin-lite-div${parseInt(idxView)}`;
-    idxView++;
-    // creates the div section, height is fixed by the user or defaults to 400px
-    
-    this.div.setAttribute("style",`width:100%;height:${height()}px;`);
 
-    this.el.appendChild(this.div);
+        const height = () => model.get("height");
+        el.setAttribute("style",`width:100%;height:${height()}px;`);
+        el.id = 'aladin-lite-div';
+        console.log(el);
+
+        A.aladin('#aladin-lite-div', {projection: "TAN", target: '15 16 57.636 -60 55 7.49', showCooGrid: true, fov: 90});
+        console.log(el);
+        
+
+    })
 
 }
