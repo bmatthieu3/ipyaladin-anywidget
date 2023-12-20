@@ -1,0 +1,28 @@
+{
+  "name": "ipyaladin-anywidget",
+  "version": "0.0.0",
+  "type": "module",
+  "description": "A test to see if we could build ipyaladin with anywidget",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ManonMarchand/ipyaladin-anywidget.git"
+  },
+  "author": "Manon Marchand <manon.marchand@bubbly.space>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ManonMarchand/ipyaladin-anywidget/issues"
+  },
+  "homepage": "https://github.com/ManonMarchand/ipyaladin-anywidget#readme",
+  "dependencies": {
+    "aladin-lite": "^3.2.0",
+    "esm": "^3.2.25",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.0.0"
+  }
+}
