@@ -1,19 +1,30 @@
-import A from "https://esm.sh/aladin-lite@3.2.0";
+import A from "https://esm.sh/aladin-lite@3.3.0-beta";
 
 let idxView = 0
 
-export function render({model, el}) {
+function render({model, el}) {
 
     A.init.then(() => {
-
         let height = model.get("height");
         let target = model.get("target");
 
-        el.setAttribute("style",`width:100%;height:${height}px;`);
-        el.id = `aladin-lite-div-${idxView}`;
+        let aladinDiv = document.createElement('div');
+        aladinDiv.style.height = `${height}px`;
 
-        let aladin = new A.aladin(`#aladin-lite-div-${idxView}`, {projection: "TAN", target: target, showCooGrid: true, fov: 90});
+        aladinDiv.id = `aladin-lite-div-${idxView}`;
+        console.log(aladinDiv, height)
+        // el is not inserted into the DOM. Thus we first directly insert it into the document
+        document.body.appendChild(aladinDiv);
+        // then we create the aladin lite instance. It will find the div because it is inserted in the DOM
+        // TODO: this is a bad workaround, I need to remove the document.querySelector in aladin-lite
+        // and only refer to the div given instead.
+        let aladin = new A.aladin(aladinDiv, {showLayersControl: true, projection: "TAN", target, fov: 90});
+        idxView += 1;
 
+        // At this point we remove it from the DOM
+        aladinDiv.remove();
+        // And append it to el
+        el.appendChild(aladinDiv)
         
         aladin.on("positionChanged", (position) => {
           model.set('ra', position.ra);
@@ -23,20 +34,19 @@ export function render({model, el}) {
         })
 
         model.on("change:height", () => {
-            height = model.get("height");
+            let height = model.get("height");
             el.style.height = `${height}px`;
         });
 
         model.on("change:target", () => {
-          target = model.get("target");
+          let target = model.get("target");
           
           aladin.gotoObject(target)
 
           console.log(aladin.getRaDec())
         })
-
-        el.appendChild(aladin);
-
     });
     
 }
+
+export default { render }
