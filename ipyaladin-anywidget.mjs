@@ -14,13 +14,12 @@ function render({model, el}) {
   aladinDiv.style.height = `${height}px`;
 
   aladinDiv.id = `aladin-lite-div-${idxView}`;
-  console.log(aladinDiv, height)
   // el is not inserted into the DOM. Thus we first directly insert it into the document
   document.body.appendChild(aladinDiv);
   // then we create the aladin lite instance. It will find the div because it is inserted in the DOM
   // TODO: this is a bad workaround, I need to remove the document.querySelector in aladin-lite
   // and only refer to the div given instead.
-  let aladin = new A.aladin(aladinDiv, {showLayersControl: true, projection: "TAN", target, fov: 90});
+  let aladin = new A.aladin(aladinDiv, {showLayersControl: true, showFullscreenControl: false, showContextMenu: true, projection: "TAN", target, fov: 90});
   idxView += 1;
 
   // At this point we remove it from the DOM
@@ -37,7 +36,7 @@ function render({model, el}) {
 
   model.on("change:height", () => {
       let height = model.get("height");
-      el.style.height = `${height}px`;
+      aladinDiv.style.height = `${height}px`;
   });
 
   model.on("change:target", () => {
